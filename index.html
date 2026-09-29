@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>你被钓鱼啦！</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+
+    font-family:
+        "Microsoft YaHei",
+        "PingFang SC",
+        sans-serif;
+
+    background:
+        radial-gradient(circle at 20% 20%, #fff6fb 0%, transparent 35%),
+        radial-gradient(circle at 80% 30%, #eaf8ff 0%, transparent 38%),
+        linear-gradient(135deg,#ffd9ec,#dff5ff 55%,#fff4d8);
+}
+
+/* 背景小圆点 */
+.bubble{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,.58);
+    box-shadow:0 8px 30px rgba(120,150,190,.12);
+    animation:float 7s ease-in-out infinite;
+}
+
+.b1{
+    width:70px;
+    height:70px;
+    left:8%;
+    top:14%;
+}
+
+.b2{
+    width:38px;
+    height:38px;
+    right:12%;
+    top:18%;
+    animation-delay:1s;
+}
+
+.b3{
+    width:92px;
+    height:92px;
+    right:7%;
+    bottom:10%;
+    animation-delay:2s;
+}
+
+.b4{
+    width:45px;
+    height:45px;
+    left:13%;
+    bottom:13%;
+    animation-delay:3s;
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-18px);
+    }
+}
+
+/* 主卡片 */
+.card{
+    position:relative;
+    z-index:5;
+
+    width:min(720px,90%);
+    padding:58px 50px 44px;
+
+    text-align:center;
+
+    border-radius:38px;
+
+    background:rgba(255,255,255,.78);
+
+    backdrop-filter:blur(18px);
+
+    border:2px solid rgba(255,255,255,.82);
+
+    box-shadow:
+        0 28px 80px rgba(114,140,180,.22),
+        inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+/* 鱼钩 */
+.hook-area{
+    height:145px;
+    position:relative;
+    margin-bottom:4px;
+}
+
+.line{
+    position:absolute;
+    width:3px;
+    height:78px;
+
+    left:50%;
+    top:-59px;
+
+    transform:translateX(-50%);
+
+    border-radius:3px;
+
+    background:#90a4bd;
+}
+
+.hook{
+    position:absolute;
+
+    left:50%;
+    top:11px;
+
+    width:48px;
+    height:56px;
+
+    transform:
+        translateX(-50%)
+        rotate(10deg);
+
+    border:5px solid #8ca2bb;
+    border-top:0;
+    border-left:0;
+
+    border-radius:0 0 38px 0;
+
+    animation:hookSwing 2.6s ease-in-out infinite;
+}
+
+.hook::after{
+    content:"";
+
+    position:absolute;
+
+    right:-4px;
+    top:37px;
+
+    width:13px;
+    height:5px;
+
+    border-radius:5px;
+
+    background:#8ca2bb;
+
+    transform:rotate(-30deg);
+}
+
+@keyframes hookSwing{
+    0%,100%{
+        transform:
+            translateX(-50%)
+            rotate(7deg);
+    }
+
+    50%{
+        transform:
+            translateX(-50%)
+            rotate(-7deg);
+    }
+}
+
+/* 小鱼 */
+.fish{
+    position:absolute;
+
+    font-size:62px;
+
+    left:calc(50% - 88px);
+    top:61px;
+
+    transform:rotate(-5deg);
+
+    animation:fishMove 2.6s ease-in-out infinite;
+}
+
+@keyframes fishMove{
+    0%,100%{
+        transform:
+            translateX(0)
+            translateY(0)
+            rotate(-5deg);
+    }
+
+    50%{
+        transform:
+            translateX(8px)
+            translateY(-7px)
+            rotate(3deg);
+    }
+}
+
+/* 小星星 */
+.star{
+    position:absolute;
+    font-size:20px;
+    animation:blink 1.8s ease-in-out infinite;
+}
+
+.s1{
+    left:30%;
+    top:75px;
+}
+
+.s2{
+    right:27%;
+    top:40px;
+    animation-delay:.8s;
+}
+
+@keyframes blink{
+    0%,100%{
+        opacity:.4;
+        transform:scale(.9);
+    }
+
+    50%{
+        opacity:1;
+        transform:scale(1.2);
+    }
+}
+
+/* 标题 */
+h1{
+    margin-top:6px;
+
+    font-size:58px;
+    line-height:1.18;
+
+    font-weight:900;
+
+    letter-spacing:-2px;
+
+    color:#ff709f;
+
+    text-shadow:
+        0 5px 0 rgba(255,255,255,.75);
+}
+
+.subtitle{
+    margin-top:18px;
+
+    font-size:21px;
+
+    color:#66758b;
+
+    font-weight:600;
+}
+
+/* 小提示卡 */
+.notice{
+    margin:30px auto 0;
+
+    max-width:530px;
+
+    padding:20px 24px;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,224,237,.75),
+            rgba(224,244,255,.82)
+        );
+
+    color:#647187;
+
+    font-size:16px;
+    line-height:1.85;
+
+    border:1px solid rgba(255,255,255,.9);
+}
+
+.notice strong{
+    color:#ff6f9e;
+}
+
+/* 标签 */
+.badge{
+    display:inline-block;
+
+    margin-top:26px;
+
+    padding:10px 18px;
+
+    border-radius:999px;
+
+    background:#ffffff;
+
+    color:#7f91a8;
+
+    font-size:13px;
+
+    box-shadow:
+        0 8px 24px rgba(118,143,176,.13);
+}
+
+/* 底部小鱼 */
+.bottom-fish{
+    position:absolute;
+    bottom:28px;
+    left:45px;
+
+    font-size:28px;
+
+    opacity:.75;
+
+    animation:swim 5s linear infinite;
+}
+
+@keyframes swim{
+    0%{
+        transform:translateX(-12px);
+    }
+
+    50%{
+        transform:translateX(28px);
+    }
+
+    100%{
+        transform:translateX(-12px);
+    }
+}
+
+@media(max-width:600px){
+
+    .card{
+        padding:
+            42px 24px
+            34px;
+    }
+
+    h1{
+        font-size:43px;
+    }
+
+    .subtitle{
+        font-size:17px;
+    }
+
+    .fish{
+        font-size:53px;
+    }
+
+    .notice{
+        font-size:14px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="bubble b1"></div>
+<div class="bubble b2"></div>
+<div class="bubble b3"></div>
+<div class="bubble b4"></div>
+
+<div class="card">
+
+    <div class="hook-area">
+
+        <div class="line"></div>
+
+        <div class="hook"></div>
+
+        <div class="fish">🐟</div>
+
+        <div class="star s1">✨</div>
+
+        <div class="star s2">✨</div>
+
+    </div>
+
+    <h1>
+        🎣 你被钓鱼啦！
+    </h1>
+
+    <div class="subtitle">
+        恭喜你成功进入了模拟钓鱼页面
+    </div>
+
+    <div class="notice">
+
+        你刚刚通过一份看起来很正常的
+        <strong>课程作业 PDF</strong>
+        进入了这个页面。
+
+        <br><br>
+
+        不过别担心，
+        这里只是一次
+        <strong>渗透测试课程演示</strong>，
+        不会收集密码、下载程序，
+        也不会修改你的电脑。
+
+    </div>
+
+    <div class="badge">
+        🐠 社会工程学 · 安全模拟实验
+    </div>
+
+    <div class="bottom-fish">
+        🐡
+    </div>
+
+</div>
+
+</body>
+</html>
